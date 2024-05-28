@@ -1,0 +1,70 @@
+# General vars
+
+docker_file = ../docker/test-flask/docker-compose.yml
+docker_compose = sudo docker-compose -f $(docker_file)
+exec = $(docker_compose) exec test_web flask
+pip_exec = $(docker_compose) exec test_web pip
+
+# Commands
+HELP:
+	echo "Try some of the followings commands:\n"\
+	echo "make RUNSERVER: Run server"\
+	echo "make CLOSESERVER: Close server"\
+	echo "make MAKEMIGRATIONS: Django Makemigrations"\
+	echo "make MIGRATE: Django Migrate"\
+	echo "make BUILDSERVER: Build Docker Image"
+
+RUNSERVER:
+	$(docker_compose) up -d
+
+RUNSERVERDEBUG:
+	$(docker_compose) up 
+
+CLOSESERVER:
+	$(docker_compose) down
+
+# COLLECTSTATIC:
+# 	$(exec) collectstatic --noinput
+
+# CREATESUPERUSER:
+# 	$(exec) custom_createsuperuser
+
+# CREATEAPP:
+# 	$(exec) startapp $(appname)
+
+# MAKEMIGRATIONS:
+# 	$(exec) makemigrations
+
+# MIGRATE:
+# 	$(exec) migrate
+
+BUILDSERVER:
+	$(docker_compose) build
+
+LOGS:
+	$(docker_compose) logs
+
+CLEANVOLUMES:
+	$(docker_compose) down -v
+
+# SHELL_PLUS:
+# 	$(exec) shell_plus
+
+REBOOT:
+	make CLOSESERVER
+	make RUNSERVER
+
+# SHOW_URLS:
+# 	$(exec) show_urls
+
+PIP_LIST:
+	$(pip_exec) list
+
+PIP_FREEZE:
+	$(pip_exec) freeze > ../test-flask/requirements.txt
+
+PIP_INSTALL:
+	$(pip_exec) install $(package)
+
+
+

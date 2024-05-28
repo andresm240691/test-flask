@@ -1,0 +1,13 @@
+FROM python:3.11-slim-buster
+
+USER root
+
+WORKDIR /usr/src/
+
+COPY test-flask/requirements.txt test-flask/requirements.txt
+
+RUN pip install -r test-flask/requirements.txt
+
+COPY . .
+
+WORKDIR /usr/src/test-flask/
